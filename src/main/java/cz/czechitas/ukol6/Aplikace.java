@@ -92,15 +92,30 @@ public class Aplikace extends JFrame {
             buttonBar.add(vypocitatButton);
             return buttonBar;
         }
-        private void handleVypocitat (ActionEvent actionEvent){
-            int pocetKraliku = Integer.parseInt(kraliciField.getText());
-            int pocetHus = Integer.parseInt(husyField.getText());
+    private void handleVypocitat(ActionEvent actionEvent) {
+        int pocetKraliku;
+        try {
+            pocetKraliku = (kraliciField.getText() != null && !kraliciField.getText().isBlank())
+                    ? Integer.parseInt(kraliciField.getText()) : 0;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,"Neplatná hodnota v poli počet králíků! Vložte celé číslo!", "Chyba", JOptionPane.ERROR_MESSAGE);
+            pocetKraliku = 0;
+        }
 
-            int pocetNoh = pocetKraliku * 4 + pocetHus * 2;
-            pocetNohouField.setText(String.valueOf(pocetNoh));
+        int pocetHus;
+        try {
+            pocetHus = (husyField.getText() != null && !husyField.getText().isBlank())
+                    ? Integer.parseInt(husyField.getText()) : 0;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,"Neplatná hodnota v poli počet hus! Vložte celé číslo!", "Chyba", JOptionPane.ERROR_MESSAGE);
+            pocetHus = 0;
+        }
 
-            int pocetHlav = pocetKraliku + pocetHus;
-            pocetHlavField.setText(String.valueOf(pocetHlav));
+        int pocetNoh = pocetKraliku * 4 + pocetHus * 2;
+        pocetNohouField.setText(String.valueOf(pocetNoh));
+
+        int pocetHlav = pocetKraliku + pocetHus;
+        pocetHlavField.setText(String.valueOf(pocetHlav));
         }
 
     }
