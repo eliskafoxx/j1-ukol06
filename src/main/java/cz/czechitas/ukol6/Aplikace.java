@@ -20,6 +20,10 @@ public class Aplikace extends JFrame {
     private JTextField pocetHlavField;
     private JTextField pocetNohouField;
 
+    private JSpinner kraliciSpinner;
+
+    private JSpinner husySpinner;
+
     private JButton vypocitatButton;
 
     public static void main(String[] args) {
@@ -28,7 +32,7 @@ public class Aplikace extends JFrame {
     }
 
     public Aplikace() throws HeadlessException {
-        super("Farmářka 1.0");
+        super("Farmářka 2.0");
         this.init();
     }
 
@@ -41,25 +45,33 @@ public class Aplikace extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setIconImage(new ImageIcon(Aplikace.class.getResource("czechitas-icon.png")).getImage());
         setLayout(new MigLayout("wrap 2", "[right]rel[50:120:150,grow,fill]"));
-        setMinimumSize(new Dimension(250, 200));
+        setMinimumSize(new Dimension(350, 250));
 
-        //TODO implementovat formulář podle zadání
-        husyField = new JTextField();
-        husyField.setHorizontalAlignment(JTextField.TRAILING);
+        //husyField = new JTextField();
+        //husyField.setHorizontalAlignment(JTextField.TRAILING);
+        SpinnerNumberModel husyModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
+        husySpinner = new JSpinner(husyModel);
         husyLabel = new JLabel("Husy");
         husyLabel.setDisplayedMnemonic('H');
-        husyLabel.setLabelFor(husyField);
+        husyLabel.setLabelFor(husySpinner);
         add(husyLabel);
-        add(husyField);
+        add(husySpinner, "span");
+        husySpinner.setPreferredSize(new Dimension(175, 25));
+        husySpinner.setMinimumSize(new Dimension(175, 25));
+        husySpinner.setMaximumSize(new Dimension(175, 25));
 
-        kraliciField = new JTextField();
-        kraliciField.setHorizontalAlignment(JTextField.TRAILING);
+        //kraliciField = new JTextField();
+        //kraliciField.setHorizontalAlignment(JTextField.TRAILING);
+        SpinnerNumberModel kraliciModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
+        kraliciSpinner = new JSpinner(kraliciModel);
         kraliciLabel = new JLabel("Králíci");
         kraliciLabel.setDisplayedMnemonic('K');
-        kraliciLabel.setLabelFor(kraliciField);
+        kraliciLabel.setLabelFor(kraliciSpinner);
         add(kraliciLabel);
-        add(kraliciField);
-
+        add(kraliciSpinner, "span");
+        kraliciSpinner.setPreferredSize(new Dimension(175, 25));
+        kraliciSpinner.setMinimumSize(new Dimension(175, 25));
+        kraliciSpinner.setMaximumSize(new Dimension(175, 25));
         add(createButtonBar(), "span");
 
         getRootPane().setDefaultButton(vypocitatButton);
@@ -83,17 +95,19 @@ public class Aplikace extends JFrame {
 
         pack();
     }
-        private JPanel createButtonBar () {
-            vypocitatButton = new JButton("Vypočítat");
-            vypocitatButton.setMnemonic('V');
 
-            JPanel buttonBar = new JPanel(new MigLayout(null, "[right, grow]"));
+    private JPanel createButtonBar() {
+        vypocitatButton = new JButton("Vypočítat");
+        vypocitatButton.setMnemonic('V');
 
-            buttonBar.add(vypocitatButton);
-            return buttonBar;
-        }
+        JPanel buttonBar = new JPanel(new MigLayout(null, "[right, grow]"));
+
+        buttonBar.add(vypocitatButton);
+        return buttonBar;
+    }
+
     private void handleVypocitat(ActionEvent actionEvent) {
-        int pocetKraliku;
+        /*int pocetKraliku;
         try {
             pocetKraliku = (kraliciField.getText() != null && !kraliciField.getText().isBlank())
                     ? Integer.parseInt(kraliciField.getText()) : 0;
@@ -117,6 +131,15 @@ public class Aplikace extends JFrame {
         int pocetHlav = pocetKraliku + pocetHus;
         pocetHlavField.setText(String.valueOf(pocetHlav));
         }
+         */
+        int pocetKraliku = (int) kraliciSpinner.getValue();
+        int pocetHus = (int) husySpinner.getValue();
 
+        int pocetNoh = pocetKraliku * 4 + pocetHus * 2;
+        pocetNohouField.setText(String.valueOf(pocetNoh));
+
+        int pocetHlav = pocetKraliku + pocetHus;
+        pocetHlavField.setText(String.valueOf(pocetHlav));
+    }
     }
 
